@@ -176,7 +176,7 @@ public class JLGameManager : MonoBehaviourPunCallbacks
 
             patrolPoints.StartAI();
 
-            obj.GetComponentInChildren<Observer>().gameEnding = endingScript;
+            obj.GetComponentInChildren<GhostRPC>().gameEnding = endingScript;
         }
     }
     private void CheckEndOfGame()
@@ -186,10 +186,5 @@ public class JLGameManager : MonoBehaviourPunCallbacks
     private void OnCountdownTimerIsExpired()
     {
         StartGame();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

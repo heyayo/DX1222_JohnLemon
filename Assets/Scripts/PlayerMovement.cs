@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
     Quaternion m_Rotation = Quaternion.identity;
     private PhotonView _photonView;
 
+    [SerializeField] private Material baseMaterial;
+    [SerializeField] private Renderer diamondRenderer;
+    [SerializeField] private GameObject bomb;
+
     void Start ()
     {
         m_Animator = GetComponent<Animator> ();
@@ -22,10 +26,22 @@ public class PlayerMovement : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
         if (_photonView.IsMine)
             GetComponent<AudioListener>().enabled = true;
+
+        diamondRenderer.material = baseMaterial;
+        diamondRenderer.material.color = JLGame.GetColor(PhotonNetwork.LocalPlayer.ActorNumber);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _photonView.RPC("PlantBomb",RpcTarget.AllViaServer,m_Rigidbody.position);
+        }
     }
 
     void FixedUpdate ()
     {
+        if (!_photonView.IsMine) return;
         float horizontal = Input.GetAxis ("Horizontal");
         float vertical = Input.GetAxis ("Vertical");
         
@@ -60,5 +76,12 @@ public class PlayerMovement : MonoBehaviour
             m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
             m_Rigidbody.MoveRotation (m_Rotation);
         }
+    }
+
+    [PunRPC]
+    public void PlantBomb(Vector3 position)
+    {
+        GameObject bombInstance = Instantiate(bomb, position, Quaternion.identity);
+        bombInstance.GetComponent<BombScript>().isMine = _photonView.IsMine;
     }
 }
