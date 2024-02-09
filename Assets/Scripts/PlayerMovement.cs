@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,11 +12,12 @@ public class PlayerMovement : MonoBehaviour
     Quaternion m_Rotation = Quaternion.identity;
     private PhotonView _photonView;
 
-    [SerializeField] private Material baseMaterial;
-    [SerializeField] private Renderer diamondRenderer;
-    [SerializeField] private GameObject bomb;
+    [SerializeField] private Transform marker;
 
-    void Start ()
+    [SerializeField] private GameObject bomb;
+    [SerializeField] private GameObject emote;
+
+    void Awake ()
     {
         m_Animator = GetComponent<Animator> ();
         m_Rigidbody = GetComponent<Rigidbody> ();
@@ -26,16 +25,21 @@ public class PlayerMovement : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
         if (_photonView.IsMine)
             GetComponent<AudioListener>().enabled = true;
-
-        diamondRenderer.material = baseMaterial;
-        diamondRenderer.material.color = JLGame.GetColor(PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_photonView.IsMine)
         {
-            _photonView.RPC("PlantBomb",RpcTarget.AllViaServer,m_Rigidbody.position);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _photonView.RPC("PlantBomb",RpcTarget.AllViaServer,m_Rigidbody.position);
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                _photonView.RPC("SpawnEmote", RpcTarget.AllViaServer);
+            }
         }
     }
 
@@ -83,5 +87,11 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject bombInstance = Instantiate(bomb, position, Quaternion.identity);
         bombInstance.GetComponent<BombScript>().isMine = _photonView.IsMine;
+    }
+
+    [PunRPC]
+    public void SpawnEmote()
+    {
+        GameObject emoteInstance = Instantiate(emote, marker.position, Quaternion.identity);
     }
 }

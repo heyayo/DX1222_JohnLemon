@@ -244,6 +244,8 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void OnLoginButtonClicked()
         {
+            PhotonNetwork.Disconnect();
+
             string playerName = PlayerNameInput.text;
 
             if (!playerName.Equals(""))

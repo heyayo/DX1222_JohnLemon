@@ -23,16 +23,4 @@ public class JLGame : MonoBehaviour
         if (choice < 0 || choice >= _colors.Length) return Color.black;
         return _colors[choice];
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

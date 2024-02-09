@@ -17,6 +17,9 @@ public class JLGameManager : MonoBehaviourPunCallbacks
     public GameObject enemies;
     public GameEnding endingScript;
     public CinemachineVirtualCamera virtualCam;
+    public UISync sync;
+
+    public int collectedCoins;
 
     public void Awake()
     {
@@ -38,6 +41,21 @@ public class JLGameManager : MonoBehaviourPunCallbacks
                 {JLGame.PLAYER_LOADED_LEVEL, true}
             };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+        if (PhotonNetwork.IsMasterClient)
+            SpawnCoins();
+    }
+
+    private void SpawnCoins()
+    {
+        GameObject[] coinSpawns = GameObject.FindGameObjectsWithTag("COINSPAWN");
+        foreach (GameObject t in coinSpawns)
+        {
+            GameObject a = PhotonNetwork.InstantiateRoomObject("COIN_PREFAB", t.transform.position, Quaternion.identity);
+            CoinScript b = a.GetComponent<CoinScript>();
+            b.gameEnding = endingScript;
+            b.manager = this;
+        }
     }
 
     public override void OnDisable()
@@ -188,3 +206,7 @@ public class JLGameManager : MonoBehaviourPunCallbacks
         StartGame();
     }
 }
+
+/*
+ * TODO
+ */

@@ -14,6 +14,8 @@ public class WaypointPatrol : MonoBehaviour
     void Start ()
     {
         navMeshAgent.SetDestination (waypoints[0].position);
+        if (!PhotonNetwork.IsMasterClient)
+            Destroy(this);
     }
 
     void Update ()
