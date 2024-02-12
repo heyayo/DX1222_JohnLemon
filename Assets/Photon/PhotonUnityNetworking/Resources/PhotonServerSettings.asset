@@ -45,6 +45,9 @@ MonoBehaviour:
   - SyncCoins
   - SpawnEmote
   - UpdateCoinsText
+  - SlowTime
+  - SyncCollectables
+  - CraftExit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

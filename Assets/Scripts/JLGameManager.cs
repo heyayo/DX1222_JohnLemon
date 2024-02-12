@@ -1,5 +1,6 @@
 using System.Collections;
-
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,11 +20,23 @@ public class JLGameManager : MonoBehaviourPunCallbacks
     public CinemachineVirtualCamera virtualCam;
     public SharedUI sync;
 
-    public int collectedCoins;
+    [SerializeField] private GameObject collectable;
 
     public void Awake()
     {
         Instance = this;
+        SpawnCollectable();
+    }
+
+    private void SpawnCollectable()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        var spawns = GameObject.FindGameObjectsWithTag("CollectableSpawns");
+        foreach (GameObject t in spawns)
+        {
+            PhotonNetwork.InstantiateRoomObject(collectable.name, t.transform.position, Quaternion.identity);
+        }
     }
 
     public override void OnEnable()
@@ -41,21 +54,6 @@ public class JLGameManager : MonoBehaviourPunCallbacks
                 {JLGame.PLAYER_LOADED_LEVEL, true}
             };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-        if (PhotonNetwork.IsMasterClient)
-            SpawnCoins();
-    }
-
-    private void SpawnCoins()
-    {
-        GameObject[] coinSpawns = GameObject.FindGameObjectsWithTag("COINSPAWN");
-        foreach (GameObject t in coinSpawns)
-        {
-            GameObject a = PhotonNetwork.InstantiateRoomObject("coin", t.transform.position, Quaternion.identity);
-            CoinScript b = a.GetComponent<CoinScript>();
-            b.gameEnding = endingScript;
-            b.manager = this;
-        }
     }
 
     public override void OnDisable()

@@ -35,11 +35,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 _photonView.RPC("PlantBomb",RpcTarget.AllViaServer,m_Rigidbody.position);
             }
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                _photonView.RPC("SpawnEmote", RpcTarget.AllViaServer);
-            }
         }
     }
 
@@ -87,11 +82,5 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject bombInstance = Instantiate(bomb, position, Quaternion.identity);
         bombInstance.GetComponent<BombScript>().isMine = _photonView.IsMine;
-    }
-
-    [PunRPC]
-    public void SpawnEmote()
-    {
-        GameObject emoteInstance = Instantiate(emote, marker.position, Quaternion.identity);
     }
 }

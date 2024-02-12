@@ -8,7 +8,7 @@ public class SharedUI : MonoBehaviour
 
     public PhotonView view;
 
-    [SerializeField] private TMP_Text CoinsText;
+    [SerializeField] private TMP_Text itemsLeftToCollect;
 
     private void Awake()
     {
@@ -18,14 +18,17 @@ public class SharedUI : MonoBehaviour
 
     private void Start()
     {
-        // Set the Coins Text at Game Start
-        UpdateCoinsText(0);
+        SyncCollectables();
     }
 
     [PunRPC]
-    public void UpdateCoinsText(int coins)
+    public void SyncCollectables()
     {
-        CoinsText.text = "Coins Collected: " + coins.ToString() + "/5";
-        JLGameManager.Instance.collectedCoins = coins;
+        itemsLeftToCollect.text = "";
+        var objects = GameObject.FindGameObjectsWithTag("Collectable");
+        foreach (var o in objects)
+        {
+            itemsLeftToCollect.text += o.name + '\n';
+        }
     }
 }
