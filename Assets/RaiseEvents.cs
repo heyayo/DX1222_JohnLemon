@@ -10,7 +10,6 @@ public class RaiseEvents : MonoBehaviour, IOnEventCallback
     {
         NULL_EVENT = 0,
         BOMB_EXPLOSION,
-        KILL_OBJECT,
         END_GAME
     }
 
@@ -35,7 +34,7 @@ public class RaiseEvents : MonoBehaviour, IOnEventCallback
             }
             case EVENT_INDEX.END_GAME:
             {
-                JLGameManager.Instance.endingScript.CaughtPlayer();
+                JLGameManager.Instance.endingScript.PlayerWin();
                 break;
             }
         }

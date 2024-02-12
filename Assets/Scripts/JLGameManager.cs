@@ -17,7 +17,7 @@ public class JLGameManager : MonoBehaviourPunCallbacks
     public GameObject enemies;
     public GameEnding endingScript;
     public CinemachineVirtualCamera virtualCam;
-    public UISync sync;
+    public SharedUI sync;
 
     public int collectedCoins;
 
@@ -51,7 +51,7 @@ public class JLGameManager : MonoBehaviourPunCallbacks
         GameObject[] coinSpawns = GameObject.FindGameObjectsWithTag("COINSPAWN");
         foreach (GameObject t in coinSpawns)
         {
-            GameObject a = PhotonNetwork.InstantiateRoomObject("COIN_PREFAB", t.transform.position, Quaternion.identity);
+            GameObject a = PhotonNetwork.InstantiateRoomObject("coin", t.transform.position, Quaternion.identity);
             CoinScript b = a.GetComponent<CoinScript>();
             b.gameEnding = endingScript;
             b.manager = this;

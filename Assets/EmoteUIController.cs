@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EmoteScript : MonoBehaviour
+public class EmoteUIController : MonoBehaviour
 {
     private AudioSource _source;
 

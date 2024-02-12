@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMarker : MonoBehaviour
+public class DiamondController : MonoBehaviour
 {
     [SerializeField] private MeshRenderer _renderer;
     [SerializeField] private PhotonView _pView;

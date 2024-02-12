@@ -192,8 +192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emotePicture: {fileID: 4815588964259543124}
-  setPicture: {fileID: 21300000, guid: 96a8a9c217edffd45a8d5dad31384e9a, type: 3}
-  clip: {fileID: 8300000, guid: 813522092d6ebfb47817c3ec9af367e7, type: 3}
+  setPicture: {fileID: 21300000, guid: 7767174db06625c4f971a5bb1f824997, type: 3}
+  clip: {fileID: 8300000, guid: 30cd9ecc27f4563428531977382e8547, type: 3}
 --- !u!82 &7488085671382397930
 AudioSource:
   m_ObjectHideFlags: 0

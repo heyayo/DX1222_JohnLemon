@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -48,7 +45,6 @@ public class BombScript : MonoBehaviour
             {
                 if (col.CompareTag("Player"))
                 {
-                    Debug.Log("EXPLOSION TOUCHED PLAYER");
                     Rigidbody rb = col.GetComponent<Rigidbody>();
                     rb.AddExplosionForce(10,transform.position,3,0,ForceMode.Impulse);
                 }

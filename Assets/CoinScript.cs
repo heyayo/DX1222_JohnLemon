@@ -17,15 +17,13 @@ public class CoinScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("COLLIDED");
         if (other.CompareTag("Player"))
         {
-            Debug.Log("COLLIDED WITH PLAYER");
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Destroy(gameObject);
                 manager.collectedCoins += 1;
-                UISync.Instance.view.RPC("SyncCoins",RpcTarget.AllViaServer,manager.collectedCoins);
+                SharedUI.Instance.view.RPC("UpdateCoinsText",RpcTarget.AllViaServer,manager.collectedCoins);
                 if (manager.collectedCoins >= 5)
                 {
                     RaiseEventOptions options = new RaiseEventOptions();
