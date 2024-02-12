@@ -10,6 +10,8 @@ public class SharedUI : MonoBehaviour
 
     [SerializeField] private TMP_Text itemsLeftToCollect;
 
+    private int _total = 0;
+
     private void Awake()
     {
         Instance = this;
@@ -26,9 +28,12 @@ public class SharedUI : MonoBehaviour
     {
         itemsLeftToCollect.text = "";
         var objects = GameObject.FindGameObjectsWithTag("Collectable");
-        foreach (var o in objects)
-        {
-            itemsLeftToCollect.text += o.name + '\n';
-        }
+        itemsLeftToCollect.text = "Items Left To Collect: " + objects.Length + '/' + _total.ToString();
+    }
+
+    [PunRPC]
+    public void FirstRun()
+    {
+        _total = GameObject.FindGameObjectsWithTag("Collectable").Length;
     }
 }

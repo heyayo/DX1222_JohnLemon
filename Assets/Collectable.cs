@@ -12,8 +12,10 @@ public class Collectable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("COLLIDING WITH COLLECTABLE");
         if (other.CompareTag("Player"))
         {
+            Debug.Log("COLLECTING");
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Destroy(gameObject);

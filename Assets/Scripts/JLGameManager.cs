@@ -32,11 +32,14 @@ public class JLGameManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        var spawns = GameObject.FindGameObjectsWithTag("CollectableSpawns");
+        var spawns = GameObject.FindGameObjectsWithTag("CollectableSpawn");
         foreach (GameObject t in spawns)
         {
-            PhotonNetwork.InstantiateRoomObject(collectable.name, t.transform.position, Quaternion.identity);
+            Quaternion random = Random.rotation;
+            PhotonNetwork.InstantiateRoomObject(collectable.name, t.transform.position, random);
         }
+        SharedUI.Instance.view.RPC("FirstRun",RpcTarget.AllViaServer);
+        SharedUI.Instance.view.RPC("SyncCollectables",RpcTarget.AllViaServer);
     }
 
     public override void OnEnable()
